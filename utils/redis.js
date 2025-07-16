@@ -2,27 +2,31 @@
 // Utils Module
 import { createClient } from "redis";
 
-const client = await createClient()
-    .on("error", (err) => console.log("Redis Client Error", err))
-    .connect();
-
-function isAlive() {
-    if (client.isReady) {
-        return true
-    } else {
-        return false
+class RedisClient {
+    constructor() {
+        this.client = createClient()
+        .on("error", (err) => console.log("Redis Client Error", err))
+        .connect();
     }
-}
 
-async function get(key) {
-    const value = await client.get(key)
-    return value
-}
+    isAlive() {
+        if (client.isReady) {
+            return true
+        } else {
+            return false
+        }
+    }
 
-async function set(key, value, duration) {
-    await client.set(key, value, duration)
-}
+    async get(key) {
+        const value = await client.get(key)
+        return value
+    }
 
-async function del(key) {
-    await client.del(key)
+    async set(key, value, duration) {
+        await client.set(key, value, duration)
+    }
+
+    async del(key) {
+        await client.del(key)
+    }
 }
