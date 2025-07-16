@@ -10,7 +10,7 @@ class RedisClient {
     }
 
     isAlive() {
-        if (client.isReady) {
+        if (this.client.isReady) {
             return true
         } else {
             return false
@@ -18,15 +18,15 @@ class RedisClient {
     }
 
     async get(key) {
-        const value = await client.get(key)
+        const value = await this.client.get(key)
         return value
     }
 
     async set(key, value, duration) {
-        await client.set(key, value, duration)
+        await this.client.set(key, value, duration)
     }
 
     async del(key) {
-        await client.del(key)
+        await this.client.del(key)
     }
 }
