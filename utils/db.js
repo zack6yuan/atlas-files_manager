@@ -41,3 +41,4 @@ class DBClient {
 }
 
 module.exports = DBClient;
+// Instance of DBClient (Needs to be exported with the name DBClient)
