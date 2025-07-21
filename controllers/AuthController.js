@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
 
-app.get('connect', (req, res) => {
-    
+app.get('/connect', (req, res) => {
+
 })
