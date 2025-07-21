@@ -1,44 +1,39 @@
-#!/usr/bin/node
-// DB Module
-const { MongoClient } = require("MongoDB")
+// utils/db.js
+const { MongoClient } = require('mongodb');
 
 class DBClient {
-    constructor() {
-    // Creates a client to MongoDB (NEEDS WORK)
-        this.host =process.env.DB_HOST || "localhost";
-        this.port = process.env.DB_PORT || 27017;
-        this.database = process.env.DB_DATABASE || files_manager;
-    }
+  constructor() {
+    const host = process.env.DB_HOST || 'localhost';
+    const port = process.env.DB_PORT || 27017;
+    const database = process.env.DB_DATABASE || 'files_manager';
 
-    isAlive() {
-    // Checks the connection to MongoDB
-        if (MongoClient.isConnected()) {
-            return true
-        } else {
-            return false
-        }
-    }
+    const url = `mongodb://${host}:${port}`;
+    this.client = new MongoClient(url, { useUnifiedTopology: true });
 
-    async nbUsers(users) {
-    // Async function that returns the number of documents in the collection "users"
-        document_list = []
-        documents = users.find()
-        documents.forEach(document => {
-            document_list.push(document)
-            return document_list
-        })
-    }
+    this.client.connect()
+      .then(() => {
+        this.db = this.client.db(database);
+      })
+      .catch((err) => {
+        console.error('MongoDB connection error:', err.message);
+        this.db = null;
+      });
+  }
 
-    async nbFiles(files) {
-    // Async function that returns the number of documents in the collection "files"
-        document_list = []
-        documents = files.find()
-        documents.forEach(document => {
-            document_list.push(document)
-            return document_list
-        })
-    }
+  isAlive() {
+    return !!this.db;
+  }
+
+  async nbUsers() {
+    if (!this.db) return 0;
+    return this.db.collection('users').countDocuments();
+  }
+
+  async nbFiles() {
+    if (!this.db) return 0;
+    return this.db.collection('files').countDocuments();
+  }
 }
 
-module.exports = DBClient;
-// Instance of DBClient (Needs to be exported with the name DBClient)
+const dbClient = new DBClient();
+module.exports = dbClient;
