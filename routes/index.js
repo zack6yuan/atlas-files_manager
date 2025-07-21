@@ -6,3 +6,15 @@ app.get('/status', (req, res) => {
 app.get('/stats', (req, res) => {
     // AppController.getStats
 })
+
+app.get('/connect', (req, res) => {
+    // AuthController.getConnect
+})
+
+app.get('/disconnect', (req, res) => {
+    // AuthController.getDsconnect
+})
+
+app.get('/users/me', (req, res) => {
+    // UserController.getMe
+})
