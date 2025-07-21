@@ -4,7 +4,7 @@ const { MongoClient } = require("MongoDB")
 
 class DBClient {
     constructor() {
-    // Creates a client to MongoDB (NEEDS WORK)
+    // Creates a client to MongoDB
         this.host =process.env.DB_HOST || "localhost";
         this.port = process.env.DB_PORT || 27017;
         this.database = process.env.DB_DATABASE || files_manager;
@@ -40,4 +40,5 @@ class DBClient {
     }
 }
 
+// Instance of DBClient is exported as dbClient
 module.exports = { dbClient: DBClient };
