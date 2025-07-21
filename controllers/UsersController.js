@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// UsersController Module
 const { dbClient } = require("db")
 const { express } = require("express")
 

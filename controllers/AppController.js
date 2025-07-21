@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// App Controller Module
+// AppController Module
 const express = require("express")
 
 // GET method for /status

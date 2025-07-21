@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// AuthController Module
+// FilesController Module
 const { dbClient } = require("db")
 const { express } = require("express")
 
