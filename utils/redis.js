@@ -1,38 +1,48 @@
-#!/usr/bin/node
-// Utils Module
-import { createClient } from "redis";
+#!/usr/bin/env node
+import redis from 'redis';
+import { promisify } from 'util';
 
 class RedisClient {
-    constructor() {
-    // Creates a redis client
-        this.client = createClient()
-        .on("error", (err) => console.log("Redis Client Error", err))
-        .connect();
-    }
+  constructor() {
+    this.client = redis.createClient();
 
-    isAlive() {
-    // Checks if client was created and ready
-        if (this.client.isReady) {
-            return true
-        } else {
-            return false
-        }
-    }
+    this.client.on('error', (err) => {
+      console.log('Redis Client Error:', err);
+    });
 
-    async get(key) {
-    // Returns the redis value stored for a key
-        const value = await this.client.get(key)
-        return value
-    }
+    this.getAsync = promisify(this.client.get).bind(this.client);
+    this.setexAsync = promisify(this.client.setex).bind(this.client);
+    this.delAsync = promisify(this.client.del).bind(this.client);
+  }
 
-    async set(key, value, duration) {
-    // Stores values in redis
-    // Duration NEEDS WORK
-        await this.client.set(key, value, duration)
-    }
+  isAlive() {
+    return this.client.connected;
+  }
 
-    async del(key) {
-    // Removes a value in redis for a key
-        await this.client.del(key)
+  async get(key) {
+    try {
+      return await this.getAsync(key);
+    } catch {
+      return null;
     }
+  }
+
+  async set(key, value, duration) {
+    try {
+      await this.setexAsync(key, duration, value);
+    } catch (err) {
+      console.error('SET error:', err);
+    }
+  }
+
+  async del(key) {
+    try {
+      await this.delAsync(key);
+    } catch (err) {
+      console.error('DEL error:', err);
+    }
+  }
 }
+
+const redisClient = new RedisClient();
+export default redisClient;
