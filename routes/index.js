@@ -1,20 +1,17 @@
 #!/usr/bin/node
-app.get('/status', (req, res) => {
-    // AppController.getStatus
-})
+const { express } = require("express");
 
-app.get('/stats', (req, res) => {
-    // AppController.getStats
-})
+const router = express.Router();
 
-app.get('/connect', (req, res) => {
-    // AuthController.getConnect
-})
+// Module Imports
+const { AppController } = require('../controllers/AppController');
+const { UsersController } = require('../controllers/UsersController');
+const { AuthController } = require('../controllers/AuthController');
 
-app.get('/disconnect', (req, res) => {
-    // AuthController.getDsconnect
-})
-
-app.get('/users/me', (req, res) => {
-    // UserController.getMe
-})
+// Endpoints
+router.get('/status', AppController.getStatus);
+router.get('/stats', AppController.getStats);
+router.post('/users', UsersController.postNew);
+router.get('/connect', AuthController.getConnect);
+router.get('/disconnect', AuthController.getDisconect);
+router.get('/users/me', UserController.getMe);
