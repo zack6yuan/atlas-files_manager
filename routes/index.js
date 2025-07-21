@@ -1,12 +1,12 @@
 #!/usr/bin/node
 const { express } = require("express");
 
-const router = express.Router();
-
 // Module Imports
 const { AppController } = require('../controllers/AppController');
 const { UsersController } = require('../controllers/UsersController');
 const { AuthController } = require('../controllers/AuthController');
+
+const router = express.Router();
 
 // Endpoints
 router.get('/status', AppController.getStatus);
