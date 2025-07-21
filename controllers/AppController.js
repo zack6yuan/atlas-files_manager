@@ -1,13 +1,22 @@
-#!/usr/bin/env node
-// App Controller Module
-const express = require("express")
+// controllers/AppController.js
 
-// GET method for /status
-app.get('/status', (req, res) => {
-    // Returns if redis is alive by using the previous 2 utils
-})
+const redisClient = require('../utils/redis');
+const dbClient = require('../utils/db');
 
-// GET method for /stats
-app.get('/stats', (req, res) => {
-    // Returns the numbers of users and files in DB with status code 200
-})
+class AppController {
+  static getStatus(req, res) {
+    res.status(200).json({
+      redis: redisClient.isAlive(),
+      db: dbClient.isAlive(),
+    });
+  }
+
+  static async getStats(req, res) {
+    const users = await dbClient.nbUsers();
+    const files = await dbClient.nbFiles();
+
+    res.status(200).json({ users, files });
+  }
+}
+
+module.exports = AppController;

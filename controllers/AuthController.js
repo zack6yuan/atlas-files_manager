@@ -1,6 +1,13 @@
-#!/usr/bin/env node
+// controllers/AuthController.js
 
+class AuthController {
+  static getConnect(req, res) {
+    res.status(200).send('Connect endpoint working');
+  }
 
-app.get('/connect', (req, res) => {
+  static getDisconnect(req, res) {
+    res.status(200).send('Disconnect endpoint working');
+  }
+}
 
-})
+module.exports = AuthController;
