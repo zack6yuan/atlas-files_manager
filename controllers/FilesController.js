@@ -8,7 +8,8 @@ const app = express()
 class FilesController {
     static async putPublish(req, res) {
         // putPublish method
-        function getToken(user, id, token, document) {
+        function getUserTokenPublish(user, id, token, document) {
+            // getUserTokenPublish function
             let isPublic = null;
             if (!token) {
                 return res.status(401).send("Unauthorized")
@@ -20,5 +21,19 @@ class FilesController {
             }
         }
     }
-    
+    static async putUnpublish(req, res) {
+        // putUnpublish method
+        function getUserTokenUnpublish(user, id, token, document) {
+            // getUserTokenUnpublish function
+            let isPublic = null;
+            if (!token) {
+                return res.status(401).send("Unauthorized");
+            } else if (!document.user && !req.params.id) {
+                return res.status(404).send("Not found");
+            } else {
+                let isPublic = false;
+                return res.status(200)
+            }
+        }
+    }
 }
