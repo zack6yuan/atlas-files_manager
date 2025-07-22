@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// FilesController Module
+// FilesController Module (Mime needs work)
 const { dbClient } = require("db");
 const { express } = require("express");
 const { mime } = require("mime-types");
