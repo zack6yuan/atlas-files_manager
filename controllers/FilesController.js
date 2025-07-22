@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 // FilesController Module
-const { dbClient } = require("db")
-const { express } = require("express")
+const { dbClient } = require("db");
+const { express } = require("express");
+const { mime } = require("mime-types");
 
-const app = express()
+const app = express();
 
 class FilesController {
     static async putPublish(req, res) {
@@ -12,12 +13,12 @@ class FilesController {
             // getUserTokenPublish function
             let isPublic = null;
             if (!token) {
-                return res.status(401).send("Unauthorized")
+                return res.status(401).send("Unauthorized");
             } else if (!document.id) {
-                return res.status(404).send("Not found")
+                return res.status(404).send("Not found");
             } else {
-                let isPublic = true
-                return res.status(200).send(document)
+                let isPublic = true;
+                return res.status(200).send(document);
             }
         }
     }
@@ -33,6 +34,24 @@ class FilesController {
             } else {
                 let isPublic = false;
                 return res.status(200).send(document);
+            }
+        }
+    }
+    static async getFIle(req, res) {
+        // getFile method
+        function getFileContent(user, id, document) {
+            // getFileContent function
+            let passedID = req.params.id;
+            if (!document.passedID) {
+                return res.status(404).send("Not found");
+            } else if (isPublic == false && (!document.user)) {
+                return res.status(404).send("Not found");
+            } else if (typeof(document) == 'folder') {
+                return res.status(400).send("A folder doesn't have content");
+            } else if (!document) {
+                return res.status(404).send("Not found");
+            } else {
+
             }
         }
     }
