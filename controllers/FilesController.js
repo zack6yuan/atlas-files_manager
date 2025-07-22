@@ -32,7 +32,7 @@ class FilesController {
                 return res.status(404).send("Not found");
             } else {
                 let isPublic = false;
-                return res.status(200)
+                return res.status(200).send(document);
             }
         }
     }
