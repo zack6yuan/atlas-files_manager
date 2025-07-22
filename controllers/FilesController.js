@@ -51,7 +51,9 @@ class FilesController {
             } else if (!document) {
                 return res.status(404).send("Not found");
             } else {
-
+                // By using the module mime-types (it is imported)
+                // get the MIME-type based on the name of the file
+                // Return the content of the file with the correct MIME-type
             }
         }
     }
