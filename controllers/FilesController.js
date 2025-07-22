@@ -7,6 +7,14 @@ const { mime } = require("mime-types");
 const app = express();
 
 class FilesController {
+    static async postUpload(req, res) {
+        // postUpload method
+        function createFile(user, id, token, document) {
+            if (!user) {
+                return res.status(401).send("Unauthorized");
+            }
+        }
+    }
     static async putPublish(req, res) {
         // putPublish method
         function getUserTokenPublish(user, id, token, document) {
@@ -46,7 +54,7 @@ class FilesController {
                 return res.status(404).send("Not found");
             } else if (isPublic == false && (!document.user)) {
                 return res.status(404).send("Not found");
-            } else if (typeof(document) == 'folder') {
+            } else if (typeof (document) == 'folder') {
                 return res.status(400).send("A folder doesn't have content");
             } else if (!document) {
                 return res.status(404).send("Not found");
