@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 const crypto = require('crypto');
+const { ObjectId } = require('mongodb');
+const redisClient = require('../utils/redis');
 const dbClient = require('../utils/db');
 
 class UsersController {
@@ -25,7 +27,22 @@ class UsersController {
   }
 
   static async getMe(req, res) {
-    return res.status(200).send({ message: 'getMe working' });
+    const token = req.header('X-Token');
+    if (!token) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    const userId = await redisClient.get(`auth_${token}`);
+    if (!userId) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    const user = await dbClient.db.collection('users').findOne({ _id: new ObjectId(userId) });
+    if (!user) {
+      return res.status(401).send({ error: 'Unauthorized' });
+    }
+
+    return res.status(200).send({ id: user._id.toString(), email: user.email });
   }
 }
 
